@@ -48,6 +48,43 @@
                 @endif
             </p>
 
+            <div class="border rounded-lg p-4 space-y-4">
+                <div>
+                    <h3 class="text-xs font-semibold text-gray-900 uppercase tracking-wide">Reference files</h3>
+                    <p class="text-xs text-gray-500 mt-1">
+                        Files added here are attached to all {{ count($batchSampleIds) }} sample(s) imported in this batch
+                        (duplicates you accept or override later get them too).
+                    </p>
+                </div>
+
+                @if(count($batchSampleIds) === 0)
+                    <p class="text-xs text-gray-500">No samples were imported in this batch yet, so there is nothing to attach files to.</p>
+                @else
+                    @if($batchFiles->isNotEmpty())
+                        <ul class="divide-y divide-gray-100 border rounded-lg">
+                            @foreach($batchFiles as $batchFile)
+                                <li class="p-2 text-sm flex items-center justify-between gap-4">
+                                    <a href="{{ route('reference-files.download', $batchFile) }}" class="text-indigo-600 hover:underline truncate">{{ $batchFile->original_name }}</a>
+                                    <div class="flex items-center gap-3 shrink-0">
+                                        <span class="text-xs text-gray-500">{{ $batchFile->humanSize() }}</span>
+                                        <button
+                                            type="button"
+                                            wire:click="detachFromBatch({{ $batchFile->id }})"
+                                            wire:confirm="Remove this file from all samples in this batch?"
+                                            class="text-xs text-red-600 hover:underline"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+
+                    @include('livewire.samples._reference-file-pickers', ['uploadLabel' => 'Add files to batch'])
+                @endif
+            </div>
+
             @if(count($duplicates) > 0)
                 <div>
                     <h3 class="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-2">

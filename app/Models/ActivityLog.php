@@ -50,6 +50,7 @@ class ActivityLog extends Model
         'edit_sample'      => ['label' => 'Edited sample', 'color' => 'blue'],
         'delete_sample'    => ['label' => 'Deleted sample', 'color' => 'red'],
         'import_samples'   => ['label' => 'Imported samples', 'color' => 'purple'],
+        'attach_reference_files' => ['label' => 'Attached reference files', 'color' => 'purple'],
         'create_sampling'  => ['label' => 'Logged sampling', 'color' => 'green'],
         'edit_sampling'    => ['label' => 'Edited sampling', 'color' => 'blue'],
         'delete_sampling'  => ['label' => 'Deleted sampling', 'color' => 'red'],

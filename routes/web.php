@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReferenceFileController;
 use App\Livewire\ActivityLog\Index as ActivityLogIndex;
 use App\Livewire\Compounds\Index as CompoundsIndex;
 use App\Livewire\Dashboard\Index as DashboardIndex;
@@ -60,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/samples/create', SamplesCreate::class)->name('samples.create');
     Route::get('/samples/import', SamplesImport::class)->name('samples.import');
     Route::get('/samples/{sample}/edit', SamplesEdit::class)->name('samples.edit');
+    Route::get('/reference-files/{referenceFile}/download', [ReferenceFileController::class, 'download'])->name('reference-files.download');
 
     Route::get('/activity-log', ActivityLogIndex::class)->name('activity-log.index');
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Sample extends Model
@@ -69,6 +70,11 @@ class Sample extends Model
     public function sampling(): HasOne
     {
         return $this->hasOne(Sampling::class);
+    }
+
+    public function referenceFiles(): BelongsToMany
+    {
+        return $this->belongsToMany(ReferenceFile::class)->withTimestamps();
     }
 
     /** Subgroups relevant to this sample's group (a subgroup can apply to more than one group — see OptionListSeeder). */

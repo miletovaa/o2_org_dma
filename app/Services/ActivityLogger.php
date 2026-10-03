@@ -183,6 +183,21 @@ class ActivityLogger
         );
     }
 
+    /** @param string[] $fileNames */
+    public static function attachReferenceFiles(array $fileNames, int $sampleCount): ActivityLog
+    {
+        $list = implode('", "', $fileNames);
+        $detail = 'Attached reference file(s) "' . $list . "\" to {$sampleCount} sample(s).";
+
+        return static::log(
+            'attach_reference_files',
+            $detail,
+            null,
+            implode(', ', $fileNames),
+            ['files' => $fileNames, 'sample_count' => $sampleCount],
+        );
+    }
+
     public static function importElementalComposition(Model $experiment, int $importedSamples, int $total, string $fileName): ActivityLog
     {
         $failed = $total - $importedSamples;
