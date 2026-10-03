@@ -75,6 +75,24 @@ class SampleImportReferenceFilesTest extends TestCase
         $this->assertSame(0, $stored->samples()->count());
     }
 
+    public function test_files_can_be_added_when_every_row_is_a_duplicate(): void
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+        Sample::create(['sample_group' => 'plant', 'lab_sample_id' => 'DUP']);
+
+        $component = $this->importCsv($user, "lab_sample_id,sample_group\nDUP,plant\n")
+            ->assertSee('Add files to batch')
+            ->set('referenceUploads', [UploadedFile::fake()->create('protocol.pdf', 20, 'application/pdf')])
+            ->call('attachUploads')
+            ->assertHasNoErrors();
+
+        $file = ReferenceFile::sole();
+        $this->assertSame(0, $file->samples()->count());
+
+        $component->call('overrideDuplicate', 0);
+        $this->assertSame(['DUP'], $file->samples()->pluck('lab_sample_id')->all());
+    }
+
     public function test_files_can_be_uploaded_and_attached_to_a_single_sample(): void
     {
         $user = User::factory()->create(['role' => 'admin']);

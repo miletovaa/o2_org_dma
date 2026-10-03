@@ -125,7 +125,8 @@ class Import extends Component
     {
         $this->validate([
             'referenceUploads' => ['required', 'array', 'min:1'],
-            'referenceUploads.*' => ['file', 'max:51200'],
+            // 12 MB matches Livewire's default temporary-upload limit — larger files never reach us.
+            'referenceUploads.*' => ['file', 'max:12288'],
         ], [], ['referenceUploads' => 'files', 'referenceUploads.*' => 'file']);
 
         $files = collect($this->referenceUploads)->map(fn ($upload) => ReferenceFile::storeUpload($upload));
